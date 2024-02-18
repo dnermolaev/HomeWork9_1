@@ -6,4 +6,11 @@
     <string name="description_share_menu">Share menu</string>
     <string name="description_post_like">Post like</string>
     <string name="description_post_views">Post views</string>
+    <string name="menu_edit"> Edit</string>
+    <string name="menu_remove">Remove</string>
+    <string name="post_text">Post Text</string>
+    <string name="error_empty_content">Content can\'t be empty</string>
+    <string name="description_post_save">Save</string>
+    <string name="description_edit_cancel">Edit cancel</string>
+    <string name="edit_message">Edit Message</string>
 </resources>
