@@ -54,24 +54,27 @@ class MainActivity : AppCompatActivity() {
                 with(binding.editedContent) {
                     setText(post.content)
                 }
-                binding.cancel.setOnClickListener {
-                    with(binding.editedContent) {
-                        setText("")
-                        clearFocus()
-                        AndroidUtils.hideKeyboard(this)
-                        binding.list.smoothScrollToPosition(0)
-                    }
-                    with(binding.content){
-                        setText("")
-                        clearFocus()
-                        AndroidUtils.hideKeyboard(this)
-                        binding.list.smoothScrollToPosition(0)
-                    }
-                    with(binding.undoEdit){
-                        visibility= View.GONE
-                    }
+            }
+
+            binding.cancel.setOnClickListener {
+                with(binding.editedContent) {
+                    setText("")
+                    viewModel.undoEdit ()
+                    clearFocus()
+                    AndroidUtils.hideKeyboard(this)
+                    binding.list.smoothScrollToPosition(0)
+                }
+                with(binding.content){
+                    setText("")
+                    clearFocus()
+                    AndroidUtils.hideKeyboard(this)
+                    binding.list.smoothScrollToPosition(0)
+                }
+                with(binding.undoEdit){
+                    visibility= View.GONE
                 }
             }
+
             binding.save.setOnClickListener {
                 with(binding.content ) {
                     if (text.isNullOrBlank()) {
@@ -91,7 +94,7 @@ class MainActivity : AppCompatActivity() {
                     AndroidUtils.hideKeyboard(this)
                     binding.list.smoothScrollToPosition(0)
                 }
-                with(binding.editedContent) {
+                /*with(binding.editedContent) {
                     setText("")
                     clearFocus()
                     AndroidUtils.hideKeyboard(this)
@@ -99,7 +102,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 with(binding.undoEdit){
                     visibility= View.GONE
-                }
+                }*/
             }
         }
 

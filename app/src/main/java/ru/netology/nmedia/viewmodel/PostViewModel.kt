@@ -13,6 +13,7 @@ private val empty = Post(
     likedByMe = false,
     published = ""
 )
+
 class PostViewModel : ViewModel() {
     // упрощённый вариант
     private val repository: PostRepository = PostRepositoryInMemoryImpl()
@@ -30,8 +31,13 @@ class PostViewModel : ViewModel() {
         edited.value = post
 
     }
+
+    fun undoEdit() {
+        edited.value = empty
+    }
+
     fun likeById(id: Long) = repository.likeById(id)
-    fun share (id: Long) = repository.shared(id)
+    fun share(id: Long) = repository.shared(id)
     fun removeById(id: Long) = repository.removeById(id)
     fun changeContent(content: String) {
         val text = content.trim()
