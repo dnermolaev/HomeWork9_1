@@ -49,6 +49,7 @@ dependencies {
     val espresso_core_version = "3.5.1"
     val activity_version = "1.8.2"
     val lifecycle_version = "2.7.0"
+    val mds_version = "1.9.0"
 
     implementation ("androidx.core:core-ktx:$core_version")
     implementation ("androidx.appcompat:appcompat:$appcompat_version")
@@ -58,7 +59,7 @@ dependencies {
     implementation ("androidx.activity:activity-ktx:$activity_version")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
     implementation ("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
-
+    implementation ("com.google.android.material:material:$mdc_version")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

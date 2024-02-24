@@ -94,15 +94,6 @@ class MainActivity : AppCompatActivity() {
                     AndroidUtils.hideKeyboard(this)
                     binding.list.smoothScrollToPosition(0)
                 }
-                /*with(binding.editedContent) {
-                    setText("")
-                    clearFocus()
-                    AndroidUtils.hideKeyboard(this)
-                    binding.list.smoothScrollToPosition(0)
-                }
-                with(binding.undoEdit){
-                    visibility= View.GONE
-                }*/
             }
         }
 
