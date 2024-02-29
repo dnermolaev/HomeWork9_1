@@ -1,6 +1,7 @@
 package ru.netology.nmedia.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
@@ -16,7 +17,8 @@ interface OnInteractionListener {
     fun onLike(post: Post) {}
     fun onEdit(post: Post) {}
     fun onRemove(post: Post) {}
-    fun onShare (post:Post){}
+    fun onShare(post: Post) {}
+    fun playVideo (post: Post){}
 }
 
 class PostsAdapter(
@@ -45,13 +47,23 @@ class PostViewHolder(
             like.isChecked = post.likedByMe
             like.text = "${post.likes}"
 
-            share.text="${post.shares}"
+            share.text = "${post.shares}"
 
-            like.setOnClickListener{
+            if (post.videoLink != null) {
+                videoGroup.visibility = View.VISIBLE
+                playButton.setOnClickListener{
+                    onInteractionListener.playVideo(post)
+                }
+                videoImage.setOnClickListener{
+                    onInteractionListener.playVideo(post)
+                }
+            }
+
+            like.setOnClickListener {
                 onInteractionListener.onLike(post)
             }
 
-            share.setOnClickListener{
+            share.setOnClickListener {
                 onInteractionListener.onShare(post)
             }
 
@@ -64,10 +76,12 @@ class PostViewHolder(
                                 onInteractionListener.onRemove(post)
                                 true
                             }
+
                             R.id.edit -> {
                                 onInteractionListener.onEdit(post)
                                 true
                             }
+
                             else -> false
                         }
                     }
@@ -91,7 +105,7 @@ class PostDiffCallback : DiffUtil.ItemCallback<Post>() {
 
 object Count {
 
-    fun convertAmount (count: Int) : String {
+    fun convertAmount(count: Int): String {
 
         if (count < 1000) return "" + count
         val exp = (ln(count.toDouble()) / ln(1000.0)).toInt()
