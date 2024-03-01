@@ -58,6 +58,9 @@ class PostViewHolder(
                     onInteractionListener.playVideo(post)
                 }
             }
+            else {
+                videoGroup.visibility = View.GONE
+            }
 
             like.setOnClickListener {
                 onInteractionListener.onLike(post)
