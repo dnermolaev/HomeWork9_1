@@ -77,6 +77,7 @@ dependencies {
     val lifecycle_version = "2.7.0"
     val mds_version = "1.9.0"
     val fragment_version = "1.6.2"
+    val gson_version = "2.10.1"
 
     implementation ("androidx.core:core-ktx:$core_version")
     implementation ("androidx.appcompat:appcompat:$appcompat_version")
@@ -88,6 +89,7 @@ dependencies {
     implementation ("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
     implementation ("com.google.android.material:material:$mdc_version")
     implementation("androidx.fragment:fragment-ktx:$fragment_version")
+    implementation ("com.google.code.gson:gson:$gson_version")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
