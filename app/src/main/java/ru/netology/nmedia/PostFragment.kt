@@ -36,6 +36,7 @@ class PostFragment : Fragment() {
         val viewHolder =
             PostViewHolder(view.postLayout, object :PostInteractionListener(viewModel, requireContext()) {
                 override fun onEdit(post: Post) {
+                    viewModel.edit(post)
                     findNavController().navigate(R.id.action_postFragment_to_newPostFragment2,
                         Bundle().apply { textArg = post.content })
                 }
