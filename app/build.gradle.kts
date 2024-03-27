@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id ("org.jetbrains.kotlin.kapt")
 }
 
 android {
@@ -79,6 +80,7 @@ dependencies {
     val fragment_version = "1.6.2"
     val gson_version = "2.10.1"
     val nav_version = "2.7.7"
+    val room_version = "2.6.1"
 
     implementation ("androidx.core:core-ktx:$core_version")
     implementation ("androidx.appcompat:appcompat:$appcompat_version")
@@ -93,7 +95,8 @@ dependencies {
     implementation ("com.google.code.gson:gson:$gson_version")
     implementation ("androidx.navigation:navigation-fragment-ktx:$nav_version")
     implementation ("androidx.navigation:navigation-ui-ktx:$nav_version")
-    19
+    implementation ("androidx.room:room-runtime:$room_version")
+    kapt ("androidx.room:room-compiler:$room_version")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

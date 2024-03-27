@@ -1,3 +1,4 @@
+/*
 package ru.netology.nmedia.repository
 
 import androidx.lifecycle.LiveData
@@ -55,4 +56,4 @@ class PostRepositorySQLiteImpl(
         posts = posts.filter { it.id != id }
         data.value = posts
     }
-}
+}*/
