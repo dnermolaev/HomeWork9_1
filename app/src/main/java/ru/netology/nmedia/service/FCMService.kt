@@ -9,11 +9,11 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.room.util.joinIntoString
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.google.gson.Gson
 import ru.netology.nmedia.R
-import ru.netology.nmedia.dto.Post
 import kotlin.random.Random
 
 class FCMService : FirebaseMessagingService() {
@@ -37,11 +37,14 @@ class FCMService : FirebaseMessagingService() {
     }
     override fun onMessageReceived(message: RemoteMessage) {
 
+        val actionType = Action.entries.map { action -> action.name }
         message.data[action]?.let {
-            when (Action.valueOf(it)) {
-                Action.LIKE -> handleLike(gson.fromJson(message.data[content], Like::class.java))
-                Action.POST -> handleNewPost(gson.fromJson(message.data[content], Post::class.java))
-                else -> println()
+            when  {
+                actionType.contains(Action.LIKE.name) -> handleLike(gson.fromJson(message.data[content], Like::class.java))
+                actionType.contains(Action.POST.name) -> handleNewPost(gson.fromJson(message.data[content], Post::class.java))
+                else -> {
+                    println()
+                }
             }
         }
     }
@@ -96,8 +99,6 @@ class FCMService : FirebaseMessagingService() {
     }
 }
 
-
-
 enum class Action {
     LIKE,
     POST,
@@ -108,4 +109,11 @@ data class Like(
     val userName: String,
     val postId: Long,
     val postAuthor: String,
+)
+
+data class Post(
+    val id: Long,
+    val author: String,
+    val content: String,
+    val published: String,
 )
