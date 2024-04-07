@@ -9,7 +9,6 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.room.util.joinIntoString
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.google.gson.Gson
@@ -37,17 +36,27 @@ class FCMService : FirebaseMessagingService() {
     }
     override fun onMessageReceived(message: RemoteMessage) {
 
-        val actionType = Action.entries.map { action -> action.name }
+
         message.data[action]?.let {
-            when  {
-                actionType.contains(Action.LIKE.name) -> handleLike(gson.fromJson(message.data[content], Like::class.java))
-                actionType.contains(Action.POST.name) -> handleNewPost(gson.fromJson(message.data[content], Post::class.java))
-                else -> {
-                    println()
-                }
+                if (Action.entries.map { action -> action.name }.contains(it))
+                when (Action.valueOf(it)) {
+                    Action.LIKE -> handleLike(
+                        gson.fromJson(
+                            message.data[content],
+                            Like::class.java
+                        )
+                    )
+
+                    Action.POST -> handleNewPost(
+                        gson.fromJson(
+                            message.data[content],
+                            PostNotification::class.java
+                        )
+                    )}
+                    //return
+                //}
             }
         }
-    }
 
     override fun onNewToken(token: String) {
         println(token)
@@ -69,7 +78,7 @@ class FCMService : FirebaseMessagingService() {
         notify(notification)
     }
 
-    private fun handleNewPost (content : Post) {
+    private fun handleNewPost (content : PostNotification) {
         val notification = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(getString(
@@ -111,7 +120,7 @@ data class Like(
     val postAuthor: String,
 )
 
-data class Post(
+data class PostNotification(
     val id: Long,
     val author: String,
     val content: String,
