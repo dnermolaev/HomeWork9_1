@@ -20,6 +20,10 @@ open class PostInteractionListener (private val viewModel: PostViewModel, privat
         viewModel.likeById(post.id)
     }
 
+    override fun onUnlike(post: Post) {
+        viewModel.unlikeById(post.id)
+    }
+
     override fun onRemove(post: Post) {
         viewModel.removeById(post.id)
     }

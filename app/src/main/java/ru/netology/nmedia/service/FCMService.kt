@@ -35,8 +35,6 @@ class FCMService : FirebaseMessagingService() {
         }
     }
     override fun onMessageReceived(message: RemoteMessage) {
-
-
         message.data[action]?.let {
                 if (Action.entries.map { action -> action.name }.contains(it))
                 when (Action.valueOf(it)) {
@@ -53,9 +51,7 @@ class FCMService : FirebaseMessagingService() {
                             PostNotification::class.java
                         )
                     )}
-                    //return
-                //}
-            }
+                                }
         }
 
     override fun onNewToken(token: String) {

@@ -20,11 +20,14 @@ interface OnInteractionListener {
     fun onShare(post: Post) {}
     fun playVideo (post: Post){}
     fun onPostOpen(post: Post){}
+    fun onUnlike(post: Post) {
+
+    }
 }
 
 class PostsAdapter(
     private val onInteractionListener: OnInteractionListener,
-) : ListAdapter<Post, PostViewHolder>(PostDiffCallback()) {
+) : ListAdapter<Post, PostViewHolder>(PostViewHolder.PostDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val binding = CardPostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return PostViewHolder(binding, onInteractionListener)
@@ -52,72 +55,76 @@ class PostViewHolder(
 
             if (post.videoLink != null) {
                 videoGroup.visibility = View.VISIBLE
-                playButton.setOnClickListener{
+                playButton.setOnClickListener {
                     onInteractionListener.playVideo(post)
                 }
-                videoImage.setOnClickListener{
+                videoImage.setOnClickListener {
                     onInteractionListener.playVideo(post)
                 }
-            }
-            else {
+            } else {
                 videoGroup.visibility = View.GONE
             }
 
             like.setOnClickListener {
-                onInteractionListener.onLike(post)
-            }
+                if (post.likedByMe == true) {
+                    onInteractionListener.onUnlike(post)
+                    post.likedByMe = false
+                } else {
+                    onInteractionListener.onLike(post)
+                }
 
-            share.setOnClickListener {
-                onInteractionListener.onShare(post)
-            }
+                share.setOnClickListener {
+                    onInteractionListener.onShare(post)
+                }
 
-            menu.setOnClickListener {
-                PopupMenu(it.context, it).apply {
-                    inflate(R.menu.options_post)
-                    setOnMenuItemClickListener { item ->
-                        when (item.itemId) {
-                            R.id.remove -> {
-                                onInteractionListener.onRemove(post)
-                                true
+                menu.setOnClickListener {
+                    PopupMenu(it.context, it).apply {
+                        inflate(R.menu.options_post)
+                        setOnMenuItemClickListener { item ->
+                            when (item.itemId) {
+                                R.id.remove -> {
+                                    onInteractionListener.onRemove(post)
+                                    true
+                                }
+
+                                R.id.edit -> {
+                                    onInteractionListener.onEdit(post)
+                                    true
+                                }
+
+                                else -> false
                             }
-
-                            R.id.edit -> {
-                                onInteractionListener.onEdit(post)
-                                true
-                            }
-
-                            else -> false
                         }
-                    }
-                }.show()
-            }
+                    }.show()
+                }
 
-            root.setOnClickListener{
-                onInteractionListener.onPostOpen(post)
+                root.setOnClickListener {
+                    onInteractionListener.onPostOpen(post)
+                }
             }
         }
     }
-}
 
 
-class PostDiffCallback : DiffUtil.ItemCallback<Post>() {
-    override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
-        return oldItem.id == newItem.id
+    class PostDiffCallback : DiffUtil.ItemCallback<Post>() {
+        override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: Post, newItem: Post): Boolean {
+            return oldItem == newItem
+        }
+
     }
 
-    override fun areContentsTheSame(oldItem: Post, newItem: Post): Boolean {
-        return oldItem == newItem
+    object Count {
+
+        fun convertAmount(count: Int): String {
+
+            if (count < 1000) return "" + count
+            val exp = (ln(count.toDouble()) / ln(1000.0)).toInt()
+            return String.format("%.1f %c", count / 1000.0.pow(exp.toDouble()), "kMGTPE"[exp - 1])
+        }
+
     }
-
-}
-
-object Count {
-
-    fun convertAmount(count: Int): String {
-
-        if (count < 1000) return "" + count
-        val exp = (ln(count.toDouble()) / ln(1000.0)).toInt()
-        return String.format("%.1f %c", count / 1000.0.pow(exp.toDouble()), "kMGTPE"[exp - 1])
-    }
-
 }

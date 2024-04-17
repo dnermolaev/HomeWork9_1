@@ -31,9 +31,12 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
+            manifestPlaceholders["usesCleartextTraffic"] = false
+        }
+        debug {
+            manifestPlaceholders["usesCleartextTraffic"] = true
         }
     }
     compileOptions {
@@ -56,9 +59,6 @@ android {
 
 dependencies {
 
-
-
-
     val core_version = "1.12.0"
     val appcompat_version = "1.6.1"
     debugImplementation("androidx.compose.ui:ui-tooling")
@@ -77,6 +77,7 @@ dependencies {
     val nav_version = "2.7.7"
     val room_version = "2.6.1"
     val play_services_base_version = "18.3.0"
+    val okhttp_version = "4.12.0"
 
     implementation ("androidx.core:core-ktx:$core_version")
     implementation ("androidx.appcompat:appcompat:$appcompat_version")
@@ -105,6 +106,8 @@ dependencies {
     implementation ("com.google.android.gms:play-services-base:$play_services_base_version")
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.08.00"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+    implementation("com.squareup.okhttp3:okhttp:$okhttp_version")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

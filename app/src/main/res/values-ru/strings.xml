@@ -22,4 +22,7 @@
     <string name="channel_remote_name">Уведомления сервера</string>
     <string name="channel_remote_description">Уведомления с удаленного сервера</string>
     <string name="notification_new_post">Пользователь %1$s опубликовал новый пост:</string>
+    <string name="error_loading">Ошибка загрузки</string>
+    <string name="retry_loading">Продолжить загрузку</string>
+    <string name="empty_posts">Пустые сообщения</string>
 </resources>

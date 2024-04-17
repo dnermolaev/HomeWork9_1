@@ -1,3 +1,4 @@
+/*
 package ru.netology.nmedia
 
 import android.os.Bundle
@@ -55,3 +56,4 @@ class PostFragment : Fragment() {
         return view.root
     }
 }
+*/
