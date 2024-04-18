@@ -34,9 +34,10 @@ class FCMService : FirebaseMessagingService() {
             manager.createNotificationChannel(channel)
         }
     }
+
     override fun onMessageReceived(message: RemoteMessage) {
         message.data[action]?.let {
-                if (Action.entries.map { action -> action.name }.contains(it))
+            if (Action.entries.map { action -> action.name }.contains(it))
                 when (Action.valueOf(it)) {
                     Action.LIKE -> handleLike(
                         gson.fromJson(
@@ -50,9 +51,10 @@ class FCMService : FirebaseMessagingService() {
                             message.data[content],
                             PostNotification::class.java
                         )
-                    )}
-                                }
+                    )
+                }
         }
+    }
 
     override fun onNewToken(token: String) {
         println(token)
@@ -74,17 +76,21 @@ class FCMService : FirebaseMessagingService() {
         notify(notification)
     }
 
-    private fun handleNewPost (content : PostNotification) {
+    private fun handleNewPost(content: PostNotification) {
         val notification = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.drawable.ic_notification)
-            .setContentTitle(getString(
-                R.string.notification_new_post,
-                content.author,
-            ))
-            .setStyle(NotificationCompat.BigTextStyle()
-                .bigText(
-                    content.content,
-                ))
+            .setContentTitle(
+                getString(
+                    R.string.notification_new_post,
+                    content.author,
+                )
+            )
+            .setStyle(
+                NotificationCompat.BigTextStyle()
+                    .bigText(
+                        content.content,
+                    )
+            )
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .build()
 

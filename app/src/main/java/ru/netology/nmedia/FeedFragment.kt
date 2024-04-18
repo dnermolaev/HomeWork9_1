@@ -28,9 +28,12 @@ class FeedFragment : Fragment() {
     private val viewModel: PostViewModel by viewModels(
         ownerProducer = ::requireParentFragment
     )
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         super.onCreate(savedInstanceState)
 
         val binding = FragmentFeedBinding.inflate(
@@ -40,12 +43,13 @@ class FeedFragment : Fragment() {
         )
 
 
-        val adapter = PostsAdapter(object: PostInteractionListener (viewModel, requireContext()) {
+        val adapter = PostsAdapter(object : PostInteractionListener(viewModel, requireContext()) {
             override fun onEdit(post: Post) {
                 viewModel.edit(post) // <------
                 findNavController().navigate(R.id.action_feedFragment_to_newPostFragment,
                     Bundle().apply { textArg = post.content })
             }
+
             override fun onPostOpen(post: Post) {
                 findNavController().navigate(R.id.action_feedFragment_to_postFragment,
                     Bundle().apply { textArg = post.id.toString() })
@@ -57,6 +61,11 @@ class FeedFragment : Fragment() {
             binding.progress.isVisible = state.loading
             binding.errorGroup.isVisible = state.error
             binding.emptyText.isVisible = state.empty
+        }
+
+        binding.swiperefresh.setOnRefreshListener {
+            viewModel.loadPosts()
+            binding.swiperefresh.isRefreshing = false
         }
 
         /*val editPostLauncher = registerForActivityResult(EditPostResultContract()) { result ->

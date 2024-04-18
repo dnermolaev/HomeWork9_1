@@ -21,7 +21,7 @@ private val empty = Post(
     published = ""
 )
 
-class PostViewModel (application: Application) : AndroidViewModel(application) {
+class PostViewModel(application: Application) : AndroidViewModel(application) {
     // упрощённый вариант
     /*private val repository: PostRepository = PostRepositoryFileImpl(application)*/
 
@@ -38,6 +38,7 @@ class PostViewModel (application: Application) : AndroidViewModel(application) {
     init {
         loadPosts()
     }
+
     fun loadPosts() {
         thread {
             // Начинаем загрузку
@@ -52,6 +53,7 @@ class PostViewModel (application: Application) : AndroidViewModel(application) {
             }.also(_data::postValue)
         }
     }
+
     fun save() {
         edited.value?.let {
             thread {
@@ -72,9 +74,13 @@ class PostViewModel (application: Application) : AndroidViewModel(application) {
         edited.value = empty
     }
 
-    fun likeById(id: Long) = thread { repository.likeById(id) }
+    fun likeById(id: Long) = thread {
+        val likedByMe = _data.value?.posts?.find { it.id == id }?.likedByMe ?: return@thread
+        if (likedByMe) repository.unlikeById(id)
+        else repository.likeById(id)
+    }
 
-    fun unlikeById (id: Long) = thread { repository.unlikeById(id) }
+    //fun unlikeById (id: Long) = thread { repository.unlikeById(id) }
     fun share(id: Long) = repository.shared(id)
     fun removeById(id: Long) {
         thread {
@@ -92,6 +98,7 @@ class PostViewModel (application: Application) : AndroidViewModel(application) {
             }
         }
     }
+
     fun changeContent(content: String) {
         val text = content.trim()
         if (edited.value?.content == text) {
@@ -100,7 +107,5 @@ class PostViewModel (application: Application) : AndroidViewModel(application) {
         edited.value = edited.value?.copy(content = text)
     }
 
-    fun onRefresh () {
-        loadPosts()
-    }
+
 }
