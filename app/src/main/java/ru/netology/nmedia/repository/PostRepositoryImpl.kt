@@ -78,7 +78,7 @@ class PostRepositoryImpl: PostRepository {
     override fun unlikeById(id: Long): Post {
         val request: Request = Request.Builder()
             .url("${BASE_URL}/api/posts/${id}/likes")
-            .post(gson.toJson(id).toString().toRequestBody(jsonType))
+            .delete()
             .build()
 
         return client.newCall(request)
@@ -87,6 +87,8 @@ class PostRepositoryImpl: PostRepository {
             .let {
                 gson.fromJson(it, Post::class.java)
             }
+
+
     }
 
     override fun shared(id: Long) {
