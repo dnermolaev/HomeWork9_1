@@ -79,16 +79,15 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         val post = if (likedByMe) repository.unlikeById(id)
         else repository.likeById(id)
 
-        thread {_data.postValue(
+        _data.postValue(
             _data.value?.copy(posts = _data.value?.posts.orEmpty().map {
-                if (it.id != post.id) it else it.copy(content = post.content)
+                if (it.id != post.id) it else post
             }
             )
-        )}
+        )
 
     }
 
-    //fun unlikeById (id: Long) = thread { repository.unlikeById(id) }
     fun share(id: Long) = repository.shared(id)
     fun removeById(id: Long) {
         thread {
