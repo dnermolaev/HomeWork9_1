@@ -50,10 +50,20 @@ class FeedFragment : Fragment() {
                     Bundle().apply { textArg = post.content })
             }
 
+            override fun onLike(post: Post) {
+                viewModel.likeById(post.id)
+            }
+
+            override fun onRemove(post: Post) {
+                viewModel.removeById(post.id)
+            }
+
             override fun onPostOpen(post: Post) {
                 findNavController().navigate(R.id.action_feedFragment_to_postFragment,
                     Bundle().apply { textArg = post.id.toString() })
             }
+
+
         })
         binding.list.adapter = adapter
         viewModel.data.observe(viewLifecycleOwner) { state ->
