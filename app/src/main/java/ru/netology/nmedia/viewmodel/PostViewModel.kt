@@ -58,33 +58,29 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
                 override fun onSuccess(posts: Post) {
                     _postCreated.postValue(Unit)
                 }
-
                 override fun onError(e: Exception) {
                     _data.postValue(FeedModel(error = true))
                 }
             })
-            _postCreated.value = Unit
+
         }
         edited.value = empty
     }
 
     fun removeById(id: Long) {
         val old = _data.value?.posts.orEmpty()
-
-        val callBack = object : PostRepository.Callback<Post> {
-            override fun onSuccess(data: Post) {
-                _data.postValue(
+        val callBack = object : PostRepository.Callback<Unit> {
+            override fun onSuccess(data: Unit) {
+                val postsUpdated = _data.postValue(
                     _data.value?.copy(posts = _data.value?.posts.orEmpty()
                         .filter { it.id != id }
                     )
                 )
             }
-
             override fun onError(e: Exception) {
-                _data.value = FeedModel(error = true)
+                _data.postValue(FeedModel(error = true))
             }
         }
-
         try {
             repository.removeById(id, callBack)
         } catch (e: IOException) {
@@ -93,9 +89,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun edit(post: Post) {
-
         edited.value = post
-
     }
 
     fun undoEdit() {
@@ -116,12 +110,10 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
                     _data.value?.copy(posts = _data.value?.posts.orEmpty().map {
                         if (it.id != post.id) it else post
                     }*/
-                _data.value = FeedModel(posts = postsUpdated, empty = postsUpdated.isEmpty())
+                _data.postValue(FeedModel(posts = postsUpdated, empty = postsUpdated.isEmpty()))
             }
-
-
             override fun onError(e: Exception) {
-                _data.value = FeedModel(error = true)
+                _data.postValue(FeedModel(error = true))
             }
         }
 

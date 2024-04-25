@@ -7,7 +7,7 @@ interface PostRepository {
     fun getAll(): List<Post>
     fun likeById(id: Long, callback: Callback<Post>)
     fun shared(id: Long)
-    fun removeById(id: Long, callback: Callback<Post>)
+    fun removeById(id: Long, callback: Callback<Unit>)
     fun save(post: Post, callback: Callback<Post>)
     fun unlikeById(id: Long, callback: Callback<Post>)
 

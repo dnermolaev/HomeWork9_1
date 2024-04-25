@@ -68,7 +68,7 @@ class PostRepositoryImpl: PostRepository {
                 override fun onResponse(call: Call, response: Response) {
                     val body = response.body?.string() ?: throw RuntimeException("body is null")
                     try {
-                        callback.onSuccess(gson.fromJson(body, typeToken.type))
+                        callback.onSuccess(gson.fromJson(body, Post::class.java))
                     } catch (e: Exception) {
                         callback.onError(e)
                     }
@@ -90,11 +90,10 @@ class PostRepositoryImpl: PostRepository {
                 override fun onFailure(call: Call, e: IOException) {
                     callback.onError(e)
                 }
-
                 override fun onResponse(call: Call, response: Response) {
                     val body = response.body?.string() ?: throw RuntimeException("body is null")
                     try {
-                        callback.onSuccess(gson.fromJson(body, typeToken.type))
+                        callback.onSuccess(gson.fromJson(body, Post::class.java))
                     } catch (e: Exception) {
                         callback.onError(e)
                     }
@@ -113,11 +112,10 @@ class PostRepositoryImpl: PostRepository {
                 override fun onFailure(call: Call, e: IOException) {
                     callback.onError(e)
                 }
-
                 override fun onResponse(call: Call, response: Response) {
                     val body = response.body?.string() ?: throw RuntimeException("body is null")
                     try {
-                        callback.onSuccess(gson.fromJson(body, typeToken.type))
+                        callback.onSuccess(gson.fromJson(body, Post::class.java))
                     } catch (e: Exception) {
                         callback.onError(e)
                     }
@@ -130,10 +128,7 @@ class PostRepositoryImpl: PostRepository {
         // TODO
     }
 
-
-
-
-    override fun removeById(id: Long, callback: PostRepository.Callback<Post>) {
+    override fun removeById(id: Long, callback: PostRepository.Callback<Unit>) {
         val request: Request = Request.Builder()
             .delete()
             .url("${BASE_URL}/api/slow/posts/$id")
@@ -148,7 +143,7 @@ class PostRepositoryImpl: PostRepository {
                 override fun onResponse(call: Call, response: Response) {
                     val body = response.body?.string() ?: throw RuntimeException("body is null")
                     try {
-                        callback.onSuccess(gson.fromJson(body, typeToken.type))
+                        callback.onSuccess(Unit)
                     } catch (e: Exception) {
                         callback.onError(e)
                     }
