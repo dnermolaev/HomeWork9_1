@@ -2,6 +2,7 @@ package ru.netology.nmedia.viewmodel
 
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,16 +10,17 @@ import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.model.FeedModel
 import ru.netology.nmedia.repository.PostRepository
 import ru.netology.nmedia.repository.PostRepositoryImpl
+import ru.netology.nmedia.utils.PicDownload
 import ru.netology.nmedia.utils.SingleLiveEvent
 import java.io.IOException
-import kotlin.concurrent.thread
 
 private val empty = Post(
     id = 0,
     content = "",
     author = "",
     likedByMe = false,
-    published = ""
+    published = "",
+    authorAvatar = ""
 )
 
 class PostViewModel(application: Application) : AndroidViewModel(application) {
@@ -56,13 +58,12 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         edited.value?.let {
             repository.save(it, object : PostRepository.Callback<Post> {
                 override fun onSuccess(posts: Post) {
-
+                    _postCreated.postValue(Unit)
                 }
                 override fun onError(e: Exception) {
                     _data.postValue(FeedModel(error = true))
                 }
             })
-            _postCreated.postValue(Unit)
         }
         edited.value = empty
     }

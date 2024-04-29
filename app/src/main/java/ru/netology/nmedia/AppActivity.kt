@@ -12,6 +12,8 @@ import com.google.android.gms.common.GoogleApiAvailability
 import com.google.firebase.messaging.FirebaseMessaging
 import ru.netology.nmedia.NewPostFragment.Companion.textArg
 import android.Manifest
+import android.content.Context
+import ru.netology.nmedia.utils.PicDownload
 
 class AppActivity : AppCompatActivity(R.layout.activity_app) {
 

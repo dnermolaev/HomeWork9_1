@@ -1,5 +1,6 @@
 package ru.netology.nmedia
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -21,6 +22,7 @@ import ru.netology.nmedia.databinding.FragmentFeedBinding
 
 
 import ru.netology.nmedia.dto.Post
+import ru.netology.nmedia.utils.PicDownload
 import ru.netology.nmedia.viewmodel.PostViewModel
 
 class FeedFragment : Fragment() {
@@ -46,8 +48,8 @@ class FeedFragment : Fragment() {
         val adapter = PostsAdapter(object : PostInteractionListener(viewModel, requireContext()) {
             override fun onEdit(post: Post) {
                 viewModel.edit(post) // <------
-                //findNavController().navigate(R.id.action_feedFragment_to_newPostFragment,
-                    //Bundle().apply { textArg = post.content })
+                findNavController().navigate(R.id.action_feedFragment_to_newPostFragment,
+                    Bundle().apply { textArg = post.content })
             }
 
             override fun onLike(post: Post) {
@@ -78,24 +80,24 @@ class FeedFragment : Fragment() {
             binding.swiperefresh.isRefreshing = false
         }
 
-        /*val editPostLauncher = registerForActivityResult(EditPostResultContract()) { result ->
+        val editPostLauncher = registerForActivityResult(EditPostResultContract()) { result ->
             if (result == null) {
                 viewModel.undoEdit()
                 return@registerForActivityResult
             }
             viewModel.changeContent(result)
             viewModel.save()
-        }*/
+        }
 
         binding.fab.setOnClickListener {
             findNavController().navigate(R.id.action_feedFragment_to_newPostFragment)
         }
 
-        /*viewModel.edited.observe(viewLifecycleOwner) { post ->
+        viewModel.edited.observe(viewLifecycleOwner) { post ->
             if (post.id !== 0L) {
                 editPostLauncher.launch(post.content)
             }
-        }*/
+        }
         return binding.root
     }
 }

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.CardPostBinding
 import ru.netology.nmedia.dto.Post
+import ru.netology.nmedia.utils.PicDownload
 import kotlin.math.ln
 import kotlin.math.pow
 
@@ -50,8 +51,8 @@ class PostViewHolder(
             content.text = post.content
             like.isChecked = post.likedByMe
             like.text = "${post.likes}"
-
             share.text = "${post.shares}"
+            avatar.setImageResource(R.drawable.ic_error_100dp)
 
             if (post.videoLink != null) {
                 videoGroup.visibility = View.VISIBLE

@@ -78,6 +78,7 @@ dependencies {
     val room_version = "2.6.1"
     val play_services_base_version = "18.3.0"
     val okhttp_version = "4.12.0"
+    val glide_version = "4.16.0"
 
     implementation ("androidx.core:core-ktx:$core_version")
     implementation ("androidx.appcompat:appcompat:$appcompat_version")
@@ -108,6 +109,7 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     implementation("com.squareup.okhttp3:okhttp:$okhttp_version")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    implementation ("com.github.bumptech.glide:glide:$glide_version")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
