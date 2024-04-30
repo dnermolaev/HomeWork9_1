@@ -1,6 +1,5 @@
 package ru.netology.nmedia.repository
 
-import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import okhttp3.*
@@ -9,7 +8,6 @@ import ru.netology.nmedia.dto.Post
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 import okhttp3.RequestBody.Companion.toRequestBody
-import ru.netology.nmedia.utils.PicDownload
 
 class PostRepositoryImpl: PostRepository {
 
