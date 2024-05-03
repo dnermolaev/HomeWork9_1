@@ -70,16 +70,6 @@ class FeedFragment : Fragment() {
             binding.emptyText.isVisible = state.empty
         }
 
-                val url = "http://10.0.2.2:9999/avatars/${urls[index++]}"
-                val name = "ic_"+"${urls[index++]}"
-
-                Glide.with(this)
-                    .load(url)
-                    .placeholder(R.drawable.ic_loading_100dp)
-                    .error(R.drawable.ic_error_100dp)
-                    .timeout(10_000)
-                    .into(this.)
-
 
         binding.swiperefresh.setOnRefreshListener {
             viewModel.loadPosts()

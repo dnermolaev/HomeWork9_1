@@ -7,6 +7,7 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.CardPostBinding
 import ru.netology.nmedia.dto.Post
@@ -51,7 +52,8 @@ class PostViewHolder(
             like.isChecked = post.likedByMe
             like.text = "${post.likes}"
             share.text = "${post.shares}"
-            avatar.setImageResource(R.drawable.ic_error_100dp) // заглушка
+            //avatar.setImageResource()
+
 
             if (post.videoLink != null) {
                 videoGroup.visibility = View.VISIBLE
@@ -98,7 +100,14 @@ class PostViewHolder(
                     onInteractionListener.onPostOpen(post)
                 }
             }
+        Glide.with(binding.avatar)
+            .load("http://10.0.2.2:9999/avatars/${post.authorAvatar}")
+            .placeholder(R.drawable.ic_loading_100dp)
+            .error(R.drawable.ic_error_100dp)
+            .timeout(10_000)
+            .into(binding.avatar)
         }
+
     }
 
 
