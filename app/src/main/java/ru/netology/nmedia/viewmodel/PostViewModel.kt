@@ -46,7 +46,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
                 _data.postValue(FeedModel(posts = posts, empty = posts.isEmpty()))
             }
 
-            override fun onError(e: Exception) {
+            override fun onError(e: Throwable) {
                 _data.postValue(FeedModel(error = true))
             }
         })
@@ -55,10 +55,10 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     fun save() {
         edited.value?.let {
             repository.save(it, object : PostRepository.Callback<Post> {
-                override fun onSuccess(posts: Post) {
+                override fun onSuccess(data: Post) {
                     _postCreated.postValue(Unit)
                 }
-                override fun onError(e: Exception) {
+                override fun onError(e: Throwable) {
                     _data.postValue(FeedModel(error = true))
                 }
             })
@@ -76,7 +76,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
                     )
                 )
             }
-            override fun onError(e: Exception) {
+            override fun onError(e: Throwable) {
                 _data.postValue(FeedModel(error = true))
             }
         }
@@ -97,7 +97,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
 
     fun likeById(id: Long) {
         val callBack = object : PostRepository.Callback<Post> {
-            override fun onSuccess(data: Post) {
+            override fun onSuccess(data:Post) {
                 val postsUpdated = _data.value?.posts.orEmpty().map {
                     if (it.id == data.id) {
                         data
@@ -111,7 +111,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
                     }*/
                 _data.postValue(FeedModel(posts = postsUpdated, empty = postsUpdated.isEmpty()))
             }
-            override fun onError(e: Exception) {
+            override fun onError(e: Throwable) {
                 _data.postValue(FeedModel(error = true))
             }
         }

@@ -14,7 +14,7 @@ interface PostRepository {
     fun getAllAsync(callback: Callback<List<Post>>)
 
     interface Callback<T> {
-        fun onSuccess(result: T) {}
-        fun onError(e: Exception) {}
+        fun onSuccess(data: T) {}
+        fun onError(e: Throwable) {}
     }
 }

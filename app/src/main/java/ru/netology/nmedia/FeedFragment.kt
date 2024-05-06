@@ -70,6 +70,9 @@ class FeedFragment : Fragment() {
             binding.emptyText.isVisible = state.empty
         }
 
+        binding.retryButton.setOnClickListener {
+            viewModel.loadPosts()
+        }
 
         binding.swiperefresh.setOnRefreshListener {
             viewModel.loadPosts()

@@ -23,9 +23,9 @@ android {
     }
     buildFeatures {
         compose = true
+        viewBinding = true
+        buildConfig = true
     }
-
-    buildFeatures.viewBinding = true
 
     buildTypes {
         release {
@@ -34,9 +34,11 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
             manifestPlaceholders["usesCleartextTraffic"] = false
+            buildConfigField ("String", "BASE_URL", "\"https://netomedia.ru\"")
         }
         debug {
             manifestPlaceholders["usesCleartextTraffic"] = true
+            buildConfigField ("String", "BASE_URL", "\"http://10.0.2.2:9999\"")
         }
     }
     compileOptions {
@@ -77,8 +79,10 @@ dependencies {
     val nav_version = "2.7.7"
     val room_version = "2.6.1"
     val play_services_base_version = "18.3.0"
-    val okhttp_version = "4.12.0"
     val glide_version = "4.16.0"
+    val retrofit_version = "2.10.0"
+    val retrofitgson_version = "2.10.0"
+    val okhttplogging_version = "4.12.0"
 
     implementation ("androidx.core:core-ktx:$core_version")
     implementation ("androidx.appcompat:appcompat:$appcompat_version")
@@ -107,8 +111,11 @@ dependencies {
     implementation ("com.google.android.gms:play-services-base:$play_services_base_version")
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.08.00"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    implementation("com.squareup.okhttp3:okhttp:$okhttp_version")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    implementation ("com.github.bumptech.glide:glide:$glide_version")
+    implementation ("com.squareup.retrofit2:retrofit:$retrofit_version")
+    implementation ("com.squareup.retrofit2:converter-gson:$retrofitgson_version")
+    implementation ("com.squareup.okhttp3:logging-interceptor:$okhttplogging_version")
     implementation ("com.github.bumptech.glide:glide:$glide_version")
 
     testImplementation("junit:junit:4.13.2")
