@@ -114,11 +114,11 @@ class PostRepositoryImpl : PostRepository {
     ) {
         if (!response.isSuccessful) {
 
-            if (response.errorBody().toString().toInt() == 500) {
-                println("onResponse response.errorBody(): " + response.errorBody().toString());
+            if (response.code().toString().toInt() == 500) {
+                println("onResponse response.errorBody(): " + response.code().toString());
             }
-            if (response.errorBody().toString().toInt() == 404) {
-                println("onResponse response.errorBody(): " + response.errorBody().toString());
+            if (response.code().toString().toInt() == 404) {
+                println("onResponse response.errorBody(): " + response.code().toString());
             }
 
 
