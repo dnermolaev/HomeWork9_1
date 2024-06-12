@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import ru.netology.nmedia.NewPostFragment.Companion.textArg
 import ru.netology.nmedia.adapter.PostsAdapter
 import ru.netology.nmedia.databinding.FragmentFeedBinding
@@ -63,20 +64,28 @@ class FeedFragment : Fragment() {
 
         })
         binding.list.adapter = adapter
+        viewModel.dataState.observe(viewLifecycleOwner) { state ->
+            binding.progress.isVisible = state.loading
+            binding.swiperefresh.isRefreshing = state.refreshing
+            if (state.error) {
+                Snackbar.make(binding.root, R.string.error_loading, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.retry_loading) { viewModel.loadPosts() }
+                    .show()
+            }
+        }
+
         viewModel.data.observe(viewLifecycleOwner) { state ->
             adapter.submitList(state.posts)
-            binding.progress.isVisible = state.loading
-            binding.errorGroup.isVisible = state.error
             binding.emptyText.isVisible = state.empty
         }
 
-        binding.retryButton.setOnClickListener {
+        /*binding.retryButton.setOnClickListener {
             viewModel.loadPosts()
-        }
+        }*/
 
         binding.swiperefresh.setOnRefreshListener {
-            viewModel.loadPosts()
-            binding.swiperefresh.isRefreshing = false
+            viewModel.refreshPosts()
+            //binding.swiperefresh.isRefreshing = false
         }
 
         val editPostLauncher = registerForActivityResult(EditPostResultContract()) { result ->
@@ -97,7 +106,9 @@ class FeedFragment : Fragment() {
                 editPostLauncher.launch(post.content)
             }
         }
+
         return binding.root
+
     }
 }
 
