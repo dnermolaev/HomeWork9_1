@@ -60,10 +60,14 @@ class FeedFragment : Fragment() {
                 findNavController().navigate(R.id.action_feedFragment_to_postFragment,
                     Bundle().apply { textArg = post.id.toString() })
             }
-
-
         })
         binding.list.adapter = adapter
+
+        viewModel.data.observe(viewLifecycleOwner) { state ->
+            adapter.submitList(state.posts)
+            binding.emptyText.isVisible = state.empty
+        }
+
         viewModel.dataState.observe(viewLifecycleOwner) { state ->
             binding.progress.isVisible = state.loading
             binding.swiperefresh.isRefreshing = state.refreshing
@@ -74,10 +78,7 @@ class FeedFragment : Fragment() {
             }
         }
 
-        viewModel.data.observe(viewLifecycleOwner) { state ->
-            adapter.submitList(state.posts)
-            binding.emptyText.isVisible = state.empty
-        }
+
 
         /*binding.retryButton.setOnClickListener {
             viewModel.loadPosts()

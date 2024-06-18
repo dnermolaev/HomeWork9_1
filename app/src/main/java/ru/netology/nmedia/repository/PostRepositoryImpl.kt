@@ -55,7 +55,6 @@ class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
                 throw ApiError(response.code(), response.message())
             }
 
-            val body = response.body() ?: throw ApiError(response.code(), response.message())
             dao.likeById(id)
         } catch (e: IOException) {
             throw NetworkError
@@ -71,7 +70,6 @@ class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
                 throw ApiError(response.code(), response.message())
             }
 
-            val body = response.body() ?: throw ApiError(response.code(), response.message())
             dao.likeById(id)
         } catch (e: IOException) {
             throw NetworkError
@@ -90,8 +88,6 @@ class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
-
-            val body = response.body() ?: throw ApiError(response.code(), response.message())
             dao.removeById(id)
         } catch (e: IOException) {
             throw NetworkError
