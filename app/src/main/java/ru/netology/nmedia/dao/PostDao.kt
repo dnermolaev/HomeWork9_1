@@ -35,7 +35,7 @@ interface PostDao {
         likedByMe = CASE WHEN likedByMe THEN 0 ELSE 1 END
         WHERE id = :id
         """)
-    fun likeById(id: Long)
+    suspend fun likeById(id: Long)
 
     @Query("DELETE FROM PostEntity WHERE id = :id")
     suspend fun removeById(id: Long)
@@ -47,5 +47,5 @@ interface PostDao {
            WHERE id = :id
         """
     )
-    fun shared(id: Long)
+    suspend fun shared(id: Long)
 }
