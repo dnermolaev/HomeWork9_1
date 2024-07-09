@@ -1,6 +1,7 @@
 package ru.netology.nmedia
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import ru.netology.nmedia.NewPostFragment.Companion.textArg
@@ -67,6 +69,24 @@ class FeedFragment : Fragment() {
             adapter.submitList(state.posts)
             binding.emptyText.isVisible = state.empty
         }
+
+        viewModel.newerCount.observe(viewLifecycleOwner) { state ->
+            Snackbar.make(binding.root, "New messages", Snackbar.LENGTH_LONG)
+                .setAnchorView(binding.fab)
+                .setAction(R.string.retry_loading) {viewModel.loadHiddenPosts()}
+                .show()
+            Log.d("FeedFragment", "Newer count: $")
+
+        }
+
+        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver(){
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                if (positionStart == 0){
+                    binding.list.smoothScrollToPosition(0)
+                }
+            }
+
+        })
 
         viewModel.dataState.observe(viewLifecycleOwner) { state ->
             binding.progress.isVisible = state.loading
