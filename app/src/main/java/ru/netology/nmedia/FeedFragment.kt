@@ -70,11 +70,16 @@ class FeedFragment : Fragment() {
             binding.emptyText.isVisible = state.empty
         }
 
+
+
+        binding.newPosts.setOnClickListener {
+            viewModel.loadHiddenPosts()
+
+        }
+
         viewModel.newerCount.observe(viewLifecycleOwner) { state ->
-            Snackbar.make(binding.root, "New messages", Snackbar.LENGTH_LONG)
-                .setAnchorView(binding.fab)
-                .setAction(R.string.retry_loading) {viewModel.loadHiddenPosts()}
-                .show()
+            binding.newPosts.isVisible
+
             Log.d("FeedFragment", "Newer count: $")
 
         }

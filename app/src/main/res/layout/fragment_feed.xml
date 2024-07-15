@@ -28,7 +28,23 @@
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="-173dp"
             tools:listitem="@layout/card_post" />
+
+
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/newPosts"
+            style="@style/Widget.Material3.Button.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/newPosts"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="New messages"
+            android:visibility="gone"/>
+
 
         <!--<Button
             android:id="@+id/retryButton"
