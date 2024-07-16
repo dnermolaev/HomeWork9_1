@@ -46,7 +46,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         get() = _dataState
 
     val newerCount: LiveData<Int> = data.switchMap {
-        repository.getNewerCount(it.posts.firstOrNull()?.id ?: 0L)
+        repository.getNewerCount()
             .catch { e -> e.printStackTrace() }
             .asLiveData(Dispatchers.Default)
     }

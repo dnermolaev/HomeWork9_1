@@ -73,12 +73,12 @@ class FeedFragment : Fragment() {
 
 
         binding.newPosts.setOnClickListener {
+            binding.newPosts.isVisible = false
             viewModel.loadHiddenPosts()
-
         }
 
         viewModel.newerCount.observe(viewLifecycleOwner) { state ->
-            binding.newPosts.isVisible
+            if (state > 0) binding.newPosts.isVisible = true
 
             Log.d("FeedFragment", "Newer count: $")
 

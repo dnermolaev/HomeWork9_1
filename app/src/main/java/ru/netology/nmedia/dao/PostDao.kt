@@ -29,6 +29,9 @@ interface PostDao {
     @Query("SELECT COUNT(*) FROM PostEntity WHERE visible=0")
     suspend fun countHidden(): Int
 
+    @Query("SELECT max(id) FROM PostEntity")
+    suspend fun maxId(): Long?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(posts: List<PostEntity>)
 
