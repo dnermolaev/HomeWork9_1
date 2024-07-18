@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.Flow
 import ru.netology.nmedia.dto.Post
 
 interface PostRepository {
+    suspend fun showAll()
     val data: Flow<List<Post>>
     suspend fun getAll()
     fun getNewerCount(): Flow<Int>

@@ -73,7 +73,8 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     fun loadHiddenPosts () = viewModelScope.launch {
         try {
             _dataState.value = FeedModelState(loading = true)
-            repository.getAll()
+            //repository.getAll()
+            repository.showAll()
             _dataState.value = FeedModelState()
         } catch (e: Exception) {
             _dataState.value = FeedModelState(error = true)
