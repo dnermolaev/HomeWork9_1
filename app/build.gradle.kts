@@ -83,6 +83,8 @@ dependencies {
     val retrofit_version = "2.10.0"
     val retrofitgson_version = "2.10.0"
     val okhttplogging_version = "4.12.0"
+    val imagepicker_version = "2.1"
+
 
     implementation ("androidx.core:core-ktx:$core_version")
     implementation ("androidx.appcompat:appcompat:$appcompat_version")
@@ -119,6 +121,7 @@ dependencies {
     implementation ("com.squareup.okhttp3:logging-interceptor:$okhttplogging_version")
     implementation ("com.github.bumptech.glide:glide:$glide_version")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
+    implementation ("com.github.dhaval2404:imagepicker:$imagepicker_version")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
