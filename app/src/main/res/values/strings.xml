@@ -30,4 +30,5 @@
     <string name="description_photo">Photo description</string>
     <string name="remove">Remove</string>
     <string name="description_take_photo">Take photo</string>
+    <string name="pic">Picture</string>
 </resources>

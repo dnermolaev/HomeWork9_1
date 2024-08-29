@@ -1,9 +1,12 @@
 package ru.netology.nmedia.adapter
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -11,7 +14,10 @@ import com.bumptech.glide.Glide
 import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.CardPostBinding
 import ru.netology.nmedia.dto.Post
+import ru.netology.nmedia.enumeration.AttachmentType
 import kotlin.math.ln
+import androidx.navigation.fragment.findNavController
+import ru.netology.nmedia.NewPostFragment.Companion.textArg
 import kotlin.math.pow
 
 interface OnInteractionListener {
@@ -22,8 +28,8 @@ interface OnInteractionListener {
     fun playVideo (post: Post){}
     fun onPostOpen(post: Post){}
     fun onUnlike(post: Post) {
-
     }
+    fun onPicOpen (post:Post){}
 }
 
 class PostsAdapter(
@@ -65,6 +71,21 @@ class PostViewHolder(
                 }
             } else {
                 videoGroup.visibility = View.GONE
+            }
+
+            if (post.attachment?.type == AttachmentType.IMAGE) {
+                pic.visibility = View.VISIBLE
+                Glide.with(binding.pic)
+                    .load("http://10.0.2.2:9999/media/*.*")
+                    .placeholder(R.drawable.ic_loading_100dp)
+                    .error(R.drawable.ic_error_100dp)
+                    .timeout(10_000)
+                    .into(binding.pic)
+                pic.setOnClickListener {
+                    findNavController().navigate(R.id.action_feedFragment_to_picFragment)
+                     }
+            } else {
+                pic.visibility = View.GONE
             }
 
             like.setOnClickListener {
