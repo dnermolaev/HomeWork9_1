@@ -62,6 +62,10 @@ class FeedFragment : Fragment() {
                 findNavController().navigate(R.id.action_feedFragment_to_postFragment,
                     Bundle().apply { textArg = post.id.toString() })
             }
+            override fun onPicOpen(post: Post) { // <---
+                findNavController().navigate(R.id.action_feedFragment_to_picFragment,
+                    Bundle().apply { textArg = post.attachment?.url.toString() })
+            }
         })
         binding.list.adapter = adapter
 

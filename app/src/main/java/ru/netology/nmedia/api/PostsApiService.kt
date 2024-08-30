@@ -57,7 +57,6 @@ interface PostsApiService {
 }
 
 
-
 object PostsApi {
     val service: PostsApiService by lazy {
         retrofit.create(PostsApiService::class.java)

@@ -25,11 +25,11 @@ interface OnInteractionListener {
     fun onEdit(post: Post) {}
     fun onRemove(post: Post) {}
     fun onShare(post: Post) {}
-    fun playVideo (post: Post){}
-    fun onPostOpen(post: Post){}
+    fun playVideo(post: Post) {}
+    fun onPostOpen(post: Post) {}
     fun onUnlike(post: Post) {
     }
-    fun onPicOpen (post:Post){}
+    fun onPicOpen(post: Post) {}
 }
 
 class PostsAdapter(
@@ -76,51 +76,51 @@ class PostViewHolder(
             if (post.attachment?.type == AttachmentType.IMAGE) {
                 pic.visibility = View.VISIBLE
                 Glide.with(binding.pic)
-                    .load("http://10.0.2.2:9999/media/*.*")
+                    .load("http://10.0.2.2:9999/media/${post.attachment.url}")
                     .placeholder(R.drawable.ic_loading_100dp)
                     .error(R.drawable.ic_error_100dp)
                     .timeout(10_000)
                     .into(binding.pic)
                 pic.setOnClickListener {
-                    findNavController().navigate(R.id.action_feedFragment_to_picFragment)
-                     }
+                    onInteractionListener.onPicOpen(post)
+                }
             } else {
                 pic.visibility = View.GONE
             }
 
             like.setOnClickListener {
-                    onInteractionListener.onLike(post)
-                }
-
-                share.setOnClickListener {
-                    onInteractionListener.onShare(post)
-                }
-
-                menu.setOnClickListener {
-                    PopupMenu(it.context, it).apply {
-                        inflate(R.menu.options_post)
-                        setOnMenuItemClickListener { item ->
-                            when (item.itemId) {
-                                R.id.remove -> {
-                                    onInteractionListener.onRemove(post)
-                                    true
-                                }
-
-                                R.id.edit -> {
-                                    onInteractionListener.onEdit(post)
-                                    true
-                                }
-
-                                else -> false
-                            }
-                        }
-                    }.show()
-                }
-
-                root.setOnClickListener {
-                    onInteractionListener.onPostOpen(post)
-                }
+                onInteractionListener.onLike(post)
             }
+
+            share.setOnClickListener {
+                onInteractionListener.onShare(post)
+            }
+
+            menu.setOnClickListener {
+                PopupMenu(it.context, it).apply {
+                    inflate(R.menu.options_post)
+                    setOnMenuItemClickListener { item ->
+                        when (item.itemId) {
+                            R.id.remove -> {
+                                onInteractionListener.onRemove(post)
+                                true
+                            }
+
+                            R.id.edit -> {
+                                onInteractionListener.onEdit(post)
+                                true
+                            }
+
+                            else -> false
+                        }
+                    }
+                }.show()
+            }
+
+            root.setOnClickListener {
+                onInteractionListener.onPostOpen(post)
+            }
+        }
         Glide.with(binding.avatar)
             .load("http://10.0.2.2:9999/avatars/${post.authorAvatar}")
             .circleCrop()
@@ -128,29 +128,29 @@ class PostViewHolder(
             .error(R.drawable.ic_error_100dp)
             .timeout(10_000)
             .into(binding.avatar)
-        }
-
     }
 
+}
 
-    class PostDiffCallback : DiffUtil.ItemCallback<Post>() {
-        override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
-            return oldItem.id == newItem.id
-        }
 
-        override fun areContentsTheSame(oldItem: Post, newItem: Post): Boolean {
-            return oldItem == newItem
-        }
-
+class PostDiffCallback : DiffUtil.ItemCallback<Post>() {
+    override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
+        return oldItem.id == newItem.id
     }
 
-    object Count {
-
-        fun convertAmount(count: Int): String {
-
-            if (count < 1000) return "" + count
-            val exp = (ln(count.toDouble()) / ln(1000.0)).toInt()
-            return String.format("%.1f %c", count / 1000.0.pow(exp.toDouble()), "kMGTPE"[exp - 1])
-        }
-
+    override fun areContentsTheSame(oldItem: Post, newItem: Post): Boolean {
+        return oldItem == newItem
     }
+
+}
+
+object Count {
+
+    fun convertAmount(count: Int): String {
+
+        if (count < 1000) return "" + count
+        val exp = (ln(count.toDouble()) / ln(1000.0)).toInt()
+        return String.format("%.1f %c", count / 1000.0.pow(exp.toDouble()), "kMGTPE"[exp - 1])
+    }
+
+}
